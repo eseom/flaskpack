@@ -11,5 +11,4 @@ from flask_admin.contrib import sqla
 
 class MyModelView(sqla.ModelView):
     def is_accessible(self):
-        return True
         return flask_login.current_user.is_authenticated

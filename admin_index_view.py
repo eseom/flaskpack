@@ -6,12 +6,13 @@
 from __future__ import unicode_literals, print_function
 
 from flask_admin import AdminIndexView as FlaskAdminIndexView, expose
+import flask_login
 
 
 class AdminIndexView(FlaskAdminIndexView):
-    # def is_accessible(self):
-    #     return flask_login.current_user.is_authenticated
-    #
+    def is_accessible(self):
+        return flask_login.current_user.is_authenticated
+
     # def _handle_view(self, name, *args, **kwargs):
     #     if not current_user.is_authenticated:
     #         return redirect(url_for_security('login', next="/admin"))
