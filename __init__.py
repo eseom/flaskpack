@@ -31,7 +31,7 @@ class FlaskWrapper(Flask):
 
         base.admin = Admin(
             self,
-            name='1kgram',
+            name=self.config.get('APPNAME', 'flask app'),
             template_mode='bootstrap3',
             base_template='admin/base_.html',
             index_view=AdminIndexView(),

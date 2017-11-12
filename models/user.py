@@ -71,32 +71,6 @@ class User(Base, UserMixin):
     current_login_ip = Column(String(255))
     login_count = Column(Integer)
 
-    # extra info
-
-    metainfo = relationship('UserMeta', backref='user', uselist=False, )
-
-    def get_metainfo(self):
-        return self.metainfo
-
-    def get_metainfo_model(self):
-        return UserMeta
-
-    # @property
-    # def profile_url(self):
-    #     media = Media.query.filter_by(obj_type=self.obj_type,
-    #                                   obj_id=self.id).order_by(
-    #         Media.updated_at.desc()).first()
-    #     if media:
-    #         return media.media_url_sa
-
-    # @property
-    # def thumbnail_url(self):
-    #     media = Media.query.filter_by(obj_type=self.obj_type,
-    #                                   obj_id=self.id).order_by(
-    #         Media.updated_at.desc()).first()
-    #     if media:
-    #         return media.thumbnail_url_sa
-
     @property
     def has_admin_privs(self):
         for role in self.roles:
@@ -112,33 +86,6 @@ class User(Base, UserMixin):
         else:
             return cls.query.filter_by(username=(id_or_username)).first()
 
-    def get_incoming_status(self, user_id):
-        """
-        현재 사용자를 (user_id에 해당하는) 타겟사용자가 follow 하는지 여부를 확인.
-
-        A user's relationship to you. Can be 'followed_by', 'requested_by',
-        'blocked_by_you', 'none'.
-
-        follow 하는 경우 'followed_by', 아닌 경우 None 을 리턴
-        """
-        rel = Relationship.query.filter_by(user_id=self.id,
-                                           followed_by_id=user_id).first()
-        if rel:
-            return 'followed_by'
-
-    def get_outgoing_status(self, user_id):
-        """
-        현재 사용자가 (user_id에 해당하는) 타겟사용자를 follow 하는지 여부를 확인.
-
-        Your relationship to the user. Can be 'follows', 'requested', 'none'.
-
-        follow 하는 경우 'follow', 아닌 경우 None 을 리턴
-        """
-        rel = Relationship.query.filter_by(user_id=user_id,
-                                           followed_by_id=self.id).first()
-
-        if rel:
-            return 'follows'
 
     @classmethod
     def createuser(self, session, email, password, roles=None):
@@ -151,75 +98,11 @@ class User(Base, UserMixin):
         session.add(user)
         return user
 
-    def update_follows_count(self):
-        metainfo_model = self.get_metainfo_model()
-        metainfo = get_or_create(session, metainfo_model, obj_id=self.id)
-        metainfo.cnt_follows = Relationship.query.join(
-            User, and_(Relationship.user_id == User.id, User.active == True)
-        ).filter(
-            Relationship.followed_by_id == self.id
-        ).count()
-
-        return metainfo
-
-    def update_followed_by_count(self):
-        metainfo_model = self.get_metainfo_model()
-        metainfo = get_or_create(session, metainfo_model, obj_id=self.id)
-        metainfo.cnt_followed_by = Relationship.query.join(
-            User,
-            and_(Relationship.followed_by_id == User.id, User.active == True)
-        ).filter(
-            Relationship.user_id == self.id
-        ).count()
-
-        return metainfo
-
     def set_password(self, password):
         self.password = hash_password(password)
 
     def __repr__(self):
         return '<{self.__class__.__name__}:{self.email}>'.format(self=self)
-
-
-class UserMeta(Base, BaseMixin):
-    __tablename__ = 'user_meta'
-
-    obj_id = Column(Integer, ForeignKey(User.id), nullable=False, )
-
-    cnt_follows = Column(Integer, default=0)
-    cnt_followed_by = Column(Integer, default=0)
-
-
-class Relationship(Base, BaseMixin):
-    __tablename__ = 'relationships'
-    __table_args__ = (
-        (UniqueConstraint("user_id", "followed_by_id",
-                          name="unique_idx_user_id_followed_by_id")),
-    )
-
-    user_id = Column(Integer, ForeignKey('users.id'))
-    followed_by_id = Column(Integer, ForeignKey('users.id'))
-
-    user = relationship('User', foreign_keys=user_id, backref='followed_by')
-    followed_by = relationship('User', foreign_keys=followed_by_id,
-                               backref='follows')
-
-    def __init__(self, user_id=None, followed_by_id=None):
-        self.user_id = user_id
-        self.followed_by_id = followed_by_id
-
-    def __repr__(self):
-        return '<{self.__class__.__name__}: {self.followed_by_id} to ' \
-               '{self.user_id}>'.format(self=self)
-
-
-class DeviceToken(Base, BaseMixin):
-    __tablename__ = 'device_tokens'
-
-    user_id = Column(Integer, ForeignKey('users.id'))
-    token = Column(Unicode)
-
-    user = relationship('User', foreign_keys=user_id, backref='device_token')
 
 
 class Client(Base):

@@ -7,7 +7,8 @@ from __future__ import unicode_literals, print_function
 
 import random
 
-from flask import jsonify
+from flask import jsonify, redirect
+from flask_login import logout_user
 
 from ..base import internal_bp, app
 
@@ -15,6 +16,12 @@ from ..base import internal_bp, app
 @app.route('/')
 def index():
     return ''
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
 
 
 @internal_bp.route('/hello')
