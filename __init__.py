@@ -7,6 +7,7 @@ from __future__ import unicode_literals, print_function
 
 import yaml
 from flask import Flask, Blueprint, jsonify
+from flask_cors import CORS
 from flask_admin import Admin
 from flask_security import SQLAlchemySessionUserDatastore, Security
 
@@ -18,11 +19,19 @@ class FlaskWrapper(Flask):
         """
         app
         """
-        Flask.__init__(self, __name__, template_folder='./templates')
+        Flask.__init__(self, __name__, template_folder='templates')
         base.app = self
 
         self.config.from_envvar('SETTINGS')
         self.secret_key = 'super secret key'
+
+        """
+        cors
+        """
+        cors = CORS(self, resources={
+            r"/api/*": {"origins": "*"},
+            r"/spec": {"origins": "*"},
+        })
 
         """
         admin

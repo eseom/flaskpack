@@ -110,6 +110,7 @@ def user_authorize(*args, **kwargs):
         return redirect('/')
 
     if request.method == 'GET':
+        print(111)
         client_id = kwargs.get('client_id')
         client = Client.query.filter_by(client_id=client_id).first()
         kwargs['client'] = client
