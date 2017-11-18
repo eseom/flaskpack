@@ -8,7 +8,7 @@ from setuptools import find_packages
 
 # variables
 
-NAME = 'flask_wrapper'
+NAME = 'canteen'
 VERSION = '1.0.0'
 
 # end variables

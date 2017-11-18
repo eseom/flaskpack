@@ -1,0 +1,12 @@
+flask
+flask_admin
+flask_sqlalchemy
+flask_migrate
+flask_cors
+flask_security
+flask_debugtoolbar
+flask_swagger
+flask_oauthlib
+flask_marshmallow
+psycopg2
+pyyaml

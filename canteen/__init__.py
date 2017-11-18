@@ -7,9 +7,12 @@ from __future__ import unicode_literals, print_function
 
 import yaml
 from flask import Flask, Blueprint, jsonify
-from flask_cors import CORS
 from flask_admin import Admin
+from flask_cors import CORS
+from flask_debugtoolbar import DebugToolbarExtension
+from flask_migrate import Migrate
 from flask_security import SQLAlchemySessionUserDatastore, Security
+from flask_sqlalchemy import SQLAlchemy
 
 import base
 
@@ -32,6 +35,23 @@ class FlaskWrapper(Flask):
             r"/api/*": {"origins": "*"},
             r"/spec": {"origins": "*"},
         })
+
+        """
+        sqlalchemy
+        """
+        base.db = SQLAlchemy(base.app)
+
+        """
+        migrate
+        """
+
+        Migrate(base.app, base.db)
+
+        """
+        DebugToolbar
+        """
+        if base.app.config.get('DEBUG', False):
+            DebugToolbarExtension(base.app)
 
         """
         admin

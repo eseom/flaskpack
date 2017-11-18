@@ -8,12 +8,12 @@ from __future__ import unicode_literals, print_function
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, DateTime
-from sqlalchemy.ext.declarative import declarative_base
 
-from . import DBSession
 
-Base = declarative_base()
-Base.query = DBSession.query_property()
+# from . import DBSession
+
+# Base = declarative_base()
+# Base.query = DBSession.query_property()
 
 
 class BaseMixin(object):

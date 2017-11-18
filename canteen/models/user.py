@@ -10,16 +10,18 @@ from datetime import datetime
 from flask_security import RoleMixin, UserMixin
 from flask_security.utils import hash_password
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, Boolean, \
-    DateTime, String, Table, Date, CHAR, UniqueConstraint
-from sqlalchemy import ForeignKey, and_
+    DateTime, String, Table, Date, CHAR
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import backref, relationship, synonym
 
-from . import session
-from .__base__ import Base, BaseMixin
+from ..base import db
+
+Model = db.Model
+session = db.session
 
 roles_users = Table(
     'roles_users',
-    Base.metadata,
+    Model.metadata,
     Column('user_id', Integer(), ForeignKey('users.id')),
     Column('role_id', Integer(), ForeignKey('roles.id')))
 
@@ -40,7 +42,7 @@ def get_or_create(session, model, **kwargs):
         return instance
 
 
-class Role(Base, RoleMixin):
+class Role(Model, RoleMixin):
     __tablename__ = 'roles'
 
     id = Column(Integer(), primary_key=True)
@@ -51,7 +53,7 @@ class Role(Base, RoleMixin):
         return '<{self.__class__.__name__}:{self.name}>'.format(self=self)
 
 
-class User(Base, UserMixin):
+class User(Model, UserMixin):
     __tablename__ = 'users'
 
     obj_type = 'User'
@@ -86,7 +88,6 @@ class User(Base, UserMixin):
         else:
             return cls.query.filter_by(username=(id_or_username)).first()
 
-
     @classmethod
     def createuser(self, session, email, password, roles=None):
         user = User(email=email, active=True, confirmed_at=datetime.now())
@@ -105,7 +106,7 @@ class User(Base, UserMixin):
         return '<{self.__class__.__name__}:{self.email}>'.format(self=self)
 
 
-class Client(Base):
+class Client(Model):
     __tablename__ = 'clients'
 
     id = Column(Integer, primary_key=True)
@@ -157,7 +158,7 @@ class Client(Base):
         return u'<{self.__class__.__name__}: {self.id}>'.format(self=self)
 
 
-class Grant(Base):
+class Grant(Model):
     __tablename__ = 'grants'
 
     id = Column(Integer, primary_key=True)
@@ -196,7 +197,7 @@ class Grant(Base):
         return []
 
 
-class Token(Base):
+class Token(Model):
     __tablename__ = 'tokens'
 
     id = Column(Integer, primary_key=True)

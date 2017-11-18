@@ -60,7 +60,7 @@
 {% endblock %}
 
 {% block page_body %}
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-inverse" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#admin-navbar-collapse">
@@ -88,15 +88,19 @@
       {% endblock %}
       {% block access_control %}
         {% if current_user.is_authenticated %}
-          <div class="btn-group pull-right" style="margin-top: 10px;">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="fa fa-user" style="font-size: 18px"></i> {{ current_user.username }} ({{ current_user.email }})
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="{{ url_for('logout') }}">로그아웃</a></li>
-            </ul>
-          </div>
+          <ul class="nav navbar-nav navbar-right collapse" id="navbar-icons">
+
+            <li class="user dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                <img src="images/demo/users/face1.png" alt="">
+                <span><i class="fa fa-user" style="font-size: 18px"></i> {{ current_user.username }} ({{ current_user.email }})</span>
+                <i class="caret"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right icons-right">
+                <li><a href="{{ url_for('logout') }}">로그아웃</a></li>
+              </ul>
+            </li>
+          </ul>
         {% endif %}
       {% endblock %}
     </div>

@@ -5,8 +5,8 @@
 
 from __future__ import unicode_literals, print_function
 
-from flask_admin import AdminIndexView as FlaskAdminIndexView, expose
 import flask_login
+from flask_admin import AdminIndexView as FlaskAdminIndexView, expose
 
 
 class AdminIndexView(FlaskAdminIndexView):
