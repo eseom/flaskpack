@@ -8,5 +8,6 @@ flask_debugtoolbar
 flask_swagger
 flask_oauthlib
 flask_marshmallow
+marshmallow-sqlalchemy
 psycopg2
 pyyaml
