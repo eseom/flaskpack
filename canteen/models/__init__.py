@@ -15,4 +15,10 @@ from __future__ import unicode_literals, print_function
 # DBSession = scoped_session(sessionmaker(bind=engine))
 # session = DBSession()
 
+
+from ..base import db
+
+Model = db.Model
+session = db.session
+
 from user import *

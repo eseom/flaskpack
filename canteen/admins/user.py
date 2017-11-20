@@ -5,11 +5,12 @@
 
 from __future__ import unicode_literals, print_function
 
-from .__base__ import MyModelView
+from .__base__ import ModelView
 from ..base import admin
-from ..models import User, Role, Client, Token, session
+from ..models import User, Role, Client, Grant, Token, session
 
-admin.add_view(MyModelView(User, session, category='User'))
-admin.add_view(MyModelView(Role, session, category='User'))
-admin.add_view(MyModelView(Client, session, category='User'))
-admin.add_view(MyModelView(Token, session, category='User'))
+admin.add_view(ModelView(User, session, category='System'))
+admin.add_view(ModelView(Role, session, category='System'))
+admin.add_view(ModelView(Grant, session, category='System'))
+admin.add_view(ModelView(Client, session, category='System'))
+admin.add_view(ModelView(Token, session, category='System'))
