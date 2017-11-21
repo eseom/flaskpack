@@ -54,6 +54,9 @@ class Role(Model, RoleMixin):
     description = db.Column(db.String(255))
     metainfo = db.Column(db.UnicodeText)
 
+    def __repr__(self):
+        return '<Role {self.name}>'.format(self=self)
+
 
 class User(Model, UserMixin):
     __tablename__ = 'users'
