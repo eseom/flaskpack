@@ -5,16 +5,16 @@
 
 from __future__ import unicode_literals, print_function
 
+import base
 import yaml
 from flask import Flask, Blueprint, jsonify
 from flask_admin import Admin
+from flask_collect import Collect
 from flask_cors import CORS
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate
 from flask_security import SQLAlchemySessionUserDatastore, Security
 from flask_sqlalchemy import SQLAlchemy
-
-import base
 
 
 class FlaskWrapper(Flask):
@@ -35,6 +35,12 @@ class FlaskWrapper(Flask):
             r"/api/*": {"origins": "*"},
             r"/spec": {"origins": "*"},
         })
+
+        """
+        collect
+        """
+        Collect(base.app)
+
 
         """
         sqlalchemy

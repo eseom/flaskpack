@@ -7,6 +7,7 @@ flask_security
 flask_debugtoolbar
 flask_swagger
 flask_oauthlib
+flask_collect
 flask_marshmallow
 marshmallow-sqlalchemy
 psycopg2
