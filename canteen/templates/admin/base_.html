@@ -6,7 +6,6 @@
 
 {% block head_css %}
   <link href="{{ admin_static.url(filename='bootstrap/bootstrap3/swatch/{swatch}/bootstrap.min.css'.format(swatch=config.get('FLASK_ADMIN_SWATCH', 'default')), v='3.3.5') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/londo.css') }}" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   {% if config.get('FLASK_ADMIN_SWATCH', 'default') == 'default' %}
     <!--<link href="{{ admin_static.url(filename='bootstrap/bootstrap3/css/bootstrap-theme.min.css', v='3.3.5') }}" rel="stylesheet">-->
@@ -96,24 +95,21 @@
       {% block menu_links %}
         <ul class="nav navbar-nav navbar-right">
           {{ layout.menu_links() }}
-        </ul>
-      {% endblock %}
-      {% block access_control %}
-        {% if current_user.is_authenticated %}
-          <ul class="nav navbar-nav navbar-right collapse" id="navbar-icons">
+          {% if current_user.is_authenticated %}
+            <ul class="nav navbar-nav" id="navbar-icons">
 
-            <li class="user dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown">
-                <img src="images/demo/users/face1.png" alt="">
-                <span><i class="fa fa-user" style="font-size: 18px"></i> {{ current_user.username }} ({{ current_user.email }})</span>
-                <i class="caret"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-right icons-right">
-                <li><a href="{{ url_for('logout') }}">로그아웃</a></li>
-              </ul>
-            </li>
-          </ul>
-        {% endif %}
+              <li class="user dropdown">
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                  <span><i class="fa fa-user" style="font-size: 18px"></i> {{ current_user.username }} ({{ current_user.email }})</span>
+                  <i class="caret"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right icons-right">
+                  <li><a href="{{ url_for('logout') }}">로그아웃</a></li>
+                </ul>
+              </li>
+            </ul>
+          {% endif %}
+        </ul>
       {% endblock %}
     </div>
   </nav>

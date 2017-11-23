@@ -12,8 +12,8 @@ from sqlalchemy import Column, Integer, Unicode, UnicodeText, Boolean, \
     DateTime
 from sqlalchemy.orm import synonym
 
-from ..base import db
 from .__base__ import BaseMixin
+from ..base import db
 
 Model = db.Model
 session = db.session
