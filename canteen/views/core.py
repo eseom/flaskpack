@@ -18,12 +18,6 @@ def index():
     return ''
 
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect('/')
-
-
 @internal_bp.route('/hello')
 def api_index():
     """
