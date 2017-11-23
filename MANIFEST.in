@@ -1,0 +1,10 @@
+./canteen/static/swagger/oauth2-redirect.html
+./canteen/templates/admin/base_.html
+./canteen/templates/authorize.html
+./canteen/templates/base_cover.html
+./canteen/templates/security/login.html
+./canteen/templates/swagger/index.template.html
+./canteen/static/swagger/swagger-ui-bundle.js
+./canteen/static/swagger/swagger-ui-standalone-preset.js
+./canteen/static/css
+./canteen/static/css/londo.css
