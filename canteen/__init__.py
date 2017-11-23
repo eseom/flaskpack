@@ -63,12 +63,14 @@ class FlaskWrapper(Flask):
         """
         from .admin_index_view import AdminIndexView
 
+        base_url = self.config.get('FLASK_ADMIN_URL', '/admin')
         base.admin = Admin(
             self,
+            url=base_url,
             name=self.config.get('APPNAME', 'flask app'),
             template_mode='bootstrap3',
             base_template='admin/base_.html',
-            index_view=AdminIndexView(),
+            index_view=AdminIndexView(url=base_url),
         )
 
         """

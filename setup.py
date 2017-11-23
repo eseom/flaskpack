@@ -28,8 +28,11 @@ setup(
     },
     install_requires=reqs,
     version=VERSION,
-    include_package_data=True,
     packages=[t for t in find_packages() if t.startswith(NAME) or t.startswith('migrations')],
+    include_package_data=True,
+    # package_data={
+	# 	'canteen': ['canteen/static/swagger/*'],
+	# },
     author='Red',
     author_email='red@woorooroo.com',
 )
