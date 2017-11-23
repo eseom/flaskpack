@@ -26,7 +26,6 @@ def load_user_grant(client_id, code):
 
 
 def get_current_user():
-    print('====================', 123123123)
     return session.query(User).get(current_user.id)
 
 
@@ -111,7 +110,6 @@ def user_authorize(*args, **kwargs):
         return redirect('/')
 
     if request.method == 'GET':
-        print(111)
         client_id = kwargs.get('client_id')
         client = Client.query.filter_by(client_id=client_id).first()
         kwargs['client'] = client

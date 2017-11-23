@@ -129,7 +129,10 @@ class FlaskWrapper(Flask):
         import views
         import admins
 
-        self.register_blueprint(base.internal_bp)
+        self.register_blueprint(
+            base.internal_bp,
+            url_prefix=base.app.config.get('CANTEEN_URL_PREFIX', '')
+        )
 
 
 app = FlaskWrapper()
