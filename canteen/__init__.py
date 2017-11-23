@@ -79,7 +79,7 @@ class FlaskWrapper(Flask):
         from .swagger import get_swaggerui_blueprint
         from flask_swagger import swagger
 
-        SWAGGER_URL = '/api/docs'
+        SWAGGER_URL = self.config.get('SWAGGER_URL', '/api/docs')
         API_URL = '/spec'
 
         swaggerui_blueprint = get_swaggerui_blueprint(
