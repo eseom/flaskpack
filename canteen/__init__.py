@@ -41,7 +41,6 @@ class FlaskWrapper(Flask):
         """
         Collect(base.app)
 
-
         """
         sqlalchemy
         """
@@ -85,15 +84,13 @@ class FlaskWrapper(Flask):
             SWAGGER_URL,
             API_URL,
             config={  # Swagger UI config overrides
-                'app_name': __name__
+                'app_name': '%s API' % self.config.get('APPNAME', 'flask app'),
             },
             oauth_config={
                 'clientId': "swagger",
             }
         )
 
-        # Register blueprint at URL
-        # (URL must match the one given to factory function above)
         self.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
         @self.route("/spec")
