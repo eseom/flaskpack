@@ -32,6 +32,7 @@ class FlaskWrapper(Flask):
         cors
         """
         CORS(self, resources={
+            r"/v2/*": {"origins": "*"},
             r"/api/*": {"origins": "*"},
             r"/spec": {"origins": "*"},
         })
