@@ -7,6 +7,7 @@ from __future__ import unicode_literals, print_function
 
 from datetime import datetime
 
+from flask.ext.security.utils import hash_password
 from flask_security import RoleMixin, UserMixin
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, Boolean, \
     DateTime
@@ -182,6 +183,9 @@ class User(Model, UserMixin):
     #         return False
     #
     #     return True
+
+    def set_password(self, password):
+        self.password = hash_password(password)
 
     @property
     def settings(self):
