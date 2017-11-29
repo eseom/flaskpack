@@ -5,9 +5,6 @@
 
 from __future__ import unicode_literals, print_function
 
-from datetime import datetime
-
-from flask.ext.security.utils import hash_password
 from flask_security import RoleMixin, UserMixin
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, Boolean, \
     DateTime
@@ -22,29 +19,11 @@ session = db.session
 from sqlalchemy import UniqueConstraint, ForeignKey
 from sqlalchemy.orm import relationship
 
-admin_users = db.Table('admin_users',
-                       db.Column('user_id', db.Integer(),
-                                 db.ForeignKey('users.id')),
-                       db.Column('admin_id', db.Integer(),
-                                 db.ForeignKey('admins.id')))
-
 roles_users = db.Table('roles_users',
                        db.Column('user_id', db.Integer(),
                                  db.ForeignKey('users.id')),
                        db.Column('role_id', db.Integer(),
                                  db.ForeignKey('roles.id')))
-
-
-class Admin(Model):
-    __tablename__ = 'admins'
-
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), unique=True)
-    description = db.Column(db.String(255))
-    metainfo = db.Column(db.UnicodeText)
-
-    def __repr__(self):
-        return '<{self.name}>'.format(self=self)
 
 
 class Role(Model, RoleMixin):
@@ -65,8 +44,6 @@ class User(Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
     username = db.Column(db.String(20), unique=True)
-    dob = db.Column(db.Date)
-    gender = db.Column(db.CHAR(1))
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -76,66 +53,6 @@ class User(Model, UserMixin):
     current_login_at = db.Column(db.DateTime())
     current_login_ip = db.Column(db.String(255))
     login_count = db.Column(db.Integer)
-
-    im_user_type = db.Column(db.Integer)  # None, Fixed
-    im_max_account = db.Column(db.Integer)
-    im_expire_at = db.Column(db.DateTime())
-
-    kg_user_type = db.Column(db.Integer)  # None, Fixed, Point
-    kg_max_account = db.Column(db.Integer)
-    kg_expire_at = db.Column(db.DateTime())
-
-    # 설정
-    email_upload_success = db.Column(db.Boolean,
-                                     default=True)  # 업로드 성공시 메일알림 받기
-    email_upload_error = db.Column(db.Boolean, default=True)  # 업로드 실패시 메일알림 받기
-
-    memo_text = db.Column(db.UnicodeText())
-
-    is_agency = db.Column(db.Boolean(), default=False)
-    is_deleted = db.Column(db.Boolean(), default=False)  # 삭제 처리
-
-    created_by_user_id = db.Column(db.Integer, db.ForeignKey('admins.id'))
-    created_by_user = relationship('Admin', foreign_keys=created_by_user_id, )
-
-    manager_id = db.Column(db.Integer, db.ForeignKey('admins.id'))
-    manager = relationship('Admin', foreign_keys=manager_id)
-
-    @property
-    def num_accounts(self):
-        return len(self.accounts)
-
-    @property
-    def lab_enabled(self):
-        return self.has_role('lab')
-
-    @property
-    def point_available(self):
-        if self.point_info:
-            return self.point_info.point_available
-
-        return 0
-
-    def set_password(self, password):
-        self.password = hash_password(password)
-
-    @property
-    def settings(self):
-        return {
-            'email_upload_error': self.email_upload_error,
-            'email_upload_success': self.email_upload_success,
-        }
-
-    @property
-    def access_token(self):
-        return db.session.query(Token).filter(
-            Token.user == self,
-            Token.expires > datetime.now(),
-        ).first()
-
-    @property
-    def access_tokens(self):
-        return db.session.query(Token).filter(Token.user == self).all()
 
     def __repr__(self):
         return '<{self.email}>'.format(self=self)
