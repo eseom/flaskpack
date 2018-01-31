@@ -5,7 +5,6 @@
 
 from __future__ import unicode_literals, print_function
 
-import base
 import yaml
 from flask import Flask, Blueprint, jsonify
 from flask_admin import Admin
@@ -15,6 +14,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate
 from flask_security import SQLAlchemySessionUserDatastore, Security
 from flask_sqlalchemy import SQLAlchemy
+
+from . import base
 
 
 class FlaskWrapper(Flask):
@@ -114,7 +115,7 @@ class FlaskWrapper(Flask):
         from flask_oauthlib.provider import OAuth2Provider
 
         base.oauth = OAuth2Provider(self)
-        import oauth
+        from . import oauth
 
         """
         flask login
@@ -127,8 +128,7 @@ class FlaskWrapper(Flask):
         """
         modules
         """
-        import views
-        import admins
+        from . import views, admins
 
         self.register_blueprint(
             base.internal_bp,
