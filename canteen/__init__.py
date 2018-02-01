@@ -142,6 +142,14 @@ def init(**kwargs):
     import inspect
     import os
 
+    tp = kwargs.get('template_folder')
+    if type(tp) == 'list':
+        kwargs['template_folder'].append('%s/templates' % os.path.dirname(__file__))
+    elif type(tp) == 'str':
+        kwargs['template_folder']= ['%s/templates' % os.path.dirname(__file__), kwargs.template_folder]
+    else:
+        kwargs['template_folder'] = '%s/templates' % os.path.dirname(__file__)
+
     root_path = os.path.dirname(os.path.abspath(inspect.stack()[1].filename))
 
     global app
