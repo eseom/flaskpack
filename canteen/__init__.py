@@ -19,12 +19,13 @@ from . import base
 
 
 class FlaskWrapper(Flask):
-    def __init__(self):
+    def __init__(self, root_path, **kwargs):
         """
         app
         """
-        Flask.__init__(self, __name__, template_folder='templates')
+        Flask.__init__(self, __name__, **kwargs)
         base.app = self
+        base.app.root_path = root_path
 
         self.config.from_envvar('SETTINGS')
         self.secret_key = 'super secret key'
@@ -136,4 +137,15 @@ class FlaskWrapper(Flask):
         )
 
 
-app = FlaskWrapper()
+app = None
+def init(**kwargs):
+    import inspect
+    import os
+
+    root_path = os.path.dirname(os.path.abspath(inspect.stack()[1].filename))
+
+    global app
+    if not app:
+        app = FlaskWrapper(root_path, **kwargs)
+    return app
+

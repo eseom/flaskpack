@@ -17,6 +17,10 @@ from sqlalchemy import Column, Integer, DateTime
 
 
 class BaseMixin(object):
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
     id = Column(Integer, primary_key=True)
     created_at = Column('created_at', DateTime, nullable=False,
                         default=datetime.now)
