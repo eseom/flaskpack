@@ -141,6 +141,7 @@ app = None
 def init(**kwargs):
     import inspect
     import os
+    import sys
 
     tp = kwargs.get('template_folder')
     if type(tp) == 'list':
@@ -150,7 +151,10 @@ def init(**kwargs):
     else:
         kwargs['template_folder'] = '%s/templates' % os.path.dirname(__file__)
 
-    root_path = os.path.dirname(os.path.abspath(inspect.stack()[1].filename))
+    if sys.version_info.major == 3:
+        root_path = os.path.dirname(os.path.abspath(inspect.stack()[1].filename))
+    else:
+        root_path = os.path.dirname(os.path.abspath(inspect.stack()[1][1]))
 
     global app
     if not app:
