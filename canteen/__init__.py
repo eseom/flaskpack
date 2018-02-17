@@ -21,6 +21,14 @@ from . import base
 class FlaskWrapper(Flask):
     def __init__(self, root_path, **kwargs):
         """
+        work with Flask constructor args
+        """
+        AdminIndexView = kwargs.get('admin_index_view', None)
+        try:
+            del kwargs['admin_index_view']
+        except:
+            pass
+        """
         app
         """
         Flask.__init__(self, __name__, **kwargs)
@@ -64,7 +72,8 @@ class FlaskWrapper(Flask):
         """
         admin
         """
-        from .admin_index_view import AdminIndexView
+        if not AdminIndexView:
+            from .admin_index_view import AdminIndexView
 
         base_url = self.config.get('FLASK_ADMIN_URL', '/admin')
         base.admin = Admin(
