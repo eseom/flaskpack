@@ -1,7 +1,3 @@
-# coding: utf-8
-
-from __future__ import unicode_literals
-
 from distutils.core import setup
 
 from setuptools import find_packages
@@ -9,7 +5,7 @@ from setuptools import find_packages
 # variables
 
 NAME = 'canteen'
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 # end variables
 
@@ -28,11 +24,12 @@ setup(
     },
     install_requires=reqs,
     version=VERSION,
-    packages=[t for t in find_packages() if t.startswith(NAME) or t.startswith('migrations')],
+    packages=[t for t in find_packages() if
+              t.startswith(NAME) or t.startswith('migrations')],
     include_package_data=True,
     # package_data={
-	# 	'canteen': ['canteen/static/swagger/*'],
-	# },
+    # 	'canteen': ['canteen/static/swagger/*'],
+    # },
     author='Red',
     author_email='red@woorooroo.com',
 )

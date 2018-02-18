@@ -1,10 +1,3 @@
-# coding: utf-8
-
-"""
-"""
-
-from __future__ import unicode_literals, print_function
-
 import flask_login
 from flask_admin.contrib import sqla
 

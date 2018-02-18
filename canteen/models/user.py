@@ -1,10 +1,3 @@
-# coding: utf-8
-
-"""
-"""
-
-from __future__ import unicode_literals, print_function
-
 from flask_security import RoleMixin, UserMixin
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, Boolean, \
     DateTime

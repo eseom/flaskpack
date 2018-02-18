@@ -1,12 +1,5 @@
-# coding: utf-8
-
-"""
-"""
-
-from __future__ import unicode_literals, print_function
-
 import yaml
-from flask import Flask, Blueprint, jsonify
+from flask import *
 from flask_admin import Admin
 from flask_collect import Collect
 from flask_cors import CORS
@@ -18,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from . import base
 
 
-class FlaskWrapper(Flask):
+class Canteen(Flask):
     def __init__(self, root_path, **kwargs):
         """
         work with Flask constructor args
@@ -147,6 +140,8 @@ class FlaskWrapper(Flask):
 
 
 app = None
+
+
 def init(**kwargs):
     import inspect
     import os
@@ -154,19 +149,21 @@ def init(**kwargs):
 
     tp = kwargs.get('template_folder')
     if type(tp) == 'list':
-        kwargs['template_folder'].append('%s/templates' % os.path.dirname(__file__))
+        kwargs['template_folder'].append(
+            '%s/templates' % os.path.dirname(__file__))
     elif type(tp) == 'str':
-        kwargs['template_folder']= ['%s/templates' % os.path.dirname(__file__), kwargs.template_folder]
+        kwargs['template_folder'] = ['%s/templates' % os.path.dirname(__file__),
+                                     kwargs.template_folder]
     else:
         kwargs['template_folder'] = '%s/templates' % os.path.dirname(__file__)
 
     if sys.version_info.major == 3:
-        root_path = os.path.dirname(os.path.abspath(inspect.stack()[1].filename))
+        root_path = os.path.dirname(
+            os.path.abspath(inspect.stack()[1].filename))
     else:
         root_path = os.path.dirname(os.path.abspath(inspect.stack()[1][1]))
 
     global app
     if not app:
-        app = FlaskWrapper(root_path, **kwargs)
+        app = Canteen(root_path, **kwargs)
     return app
-

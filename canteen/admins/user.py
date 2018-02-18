@@ -1,10 +1,3 @@
-# coding: utf-8
-
-"""
-"""
-
-from __future__ import unicode_literals, print_function
-
 from .__base__ import ModelView
 from ..base import admin
 from ..models import User, Role, Client, Grant, Token, session
