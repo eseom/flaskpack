@@ -1,3 +1,4 @@
+import jinja2
 import yaml
 from flask import *
 from flask_admin import Admin
@@ -12,7 +13,7 @@ from . import base
 
 
 class Canteen(Flask):
-    def __init__(self, root_path, **kwargs):
+    def __init__(self, root_path, template_folders, **kwargs):
         """
         work with Flask constructor args
         """
@@ -21,6 +22,7 @@ class Canteen(Flask):
             del kwargs['admin_index_view']
         except:
             pass
+
         """
         app
         """
@@ -30,6 +32,15 @@ class Canteen(Flask):
 
         self.config.from_envvar('SETTINGS')
         self.secret_key = 'super secret key'
+
+        """
+        set custom jinja loader
+        """
+        tfs = [base.app.jinja_loader]
+        for tf in template_folders:
+            tfs.append(jinja2.FileSystemLoader(tf))
+        loader = jinja2.ChoiceLoader(tfs)
+        base.app.jinja_loader = loader
 
         """
         cors
@@ -147,23 +158,29 @@ def init(**kwargs):
     import os
     import sys
 
-    tp = kwargs.get('template_folder')
-    if type(tp) == 'list':
-        kwargs['template_folder'].append(
-            '%s/templates' % os.path.dirname(__file__))
-    elif type(tp) == 'str':
-        kwargs['template_folder'] = ['%s/templates' % os.path.dirname(__file__),
-                                     kwargs.template_folder]
-    else:
-        kwargs['template_folder'] = '%s/templates' % os.path.dirname(__file__)
-
+    # reset root path
     if sys.version_info.major == 3:
         root_path = os.path.dirname(
             os.path.abspath(inspect.stack()[1].filename))
     else:
         root_path = os.path.dirname(os.path.abspath(inspect.stack()[1][1]))
 
+    # template folders
+    canteen_template_path = '%s/templates' % os.path.dirname(__file__)
+    template_folders = []
+    tp = kwargs.get('template_folder')
+    if type(tp) == 'list':
+        template_folders.append(canteen_template_path)
+    elif type(tp) == 'str':
+        template_folders = [canteen_template_path, tp]
+    else:
+        template_folders = [
+            '%s/templates' % root_path,
+            canteen_template_path,
+        ]
+
     global app
     if not app:
-        app = Canteen(root_path, **kwargs)
+        app = Canteen(root_path, template_folders, **kwargs)
     return app
+
