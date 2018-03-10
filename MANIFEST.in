@@ -1,3 +1,3 @@
-recursive-include canteen/static/swagger *
-recursive-include canteen/templates *
-recursive-include canteen/static/css *
+recursive-include flaskpack/static/swagger *
+recursive-include flaskpack/templates *
+recursive-include flaskpack/static/css *

@@ -166,17 +166,17 @@ def init(**kwargs):
         root_path = os.path.dirname(os.path.abspath(inspect.stack()[1][1]))
 
     # template folders
-    canteen_template_path = '%s/templates' % os.path.dirname(__file__)
+    flaskpack_template_path = '%s/templates' % os.path.dirname(__file__)
     template_folders = []
     tp = kwargs.get('template_folder')
     if type(tp) == 'list':
-        template_folders.append(canteen_template_path)
+        template_folders.append(flaskpack_template_path)
     elif type(tp) == 'str':
-        template_folders = [canteen_template_path, tp]
+        template_folders = [flaskpack_template_path, tp]
     else:
         template_folders = [
             '%s/templates' % root_path,
-            canteen_template_path,
+            flaskpack_template_path,
         ]
 
     global app

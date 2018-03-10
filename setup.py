@@ -4,8 +4,8 @@ from setuptools import find_packages
 
 # variables
 
-NAME = 'canteen'
-VERSION = '1.0.1'
+NAME = 'flaskpack'
+VERSION = '0.1.0'
 
 # end variables
 
@@ -28,7 +28,7 @@ setup(
               t.startswith(NAME) or t.startswith('migrations')],
     include_package_data=True,
     # package_data={
-    # 	'canteen': ['canteen/static/swagger/*'],
+    # 	'flaskpack': ['flaskpack/static/swagger/*'],
     # },
     author='Red',
     author_email='red@woorooroo.com',
