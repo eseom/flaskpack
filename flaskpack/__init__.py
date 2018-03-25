@@ -12,7 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 from . import base
 
 
-class Canteen(Flask):
+class Flaskpack(Flask):
     def __init__(self, root_path, template_folders, **kwargs):
         """
         work with Flask constructor args
@@ -181,6 +181,6 @@ def init(**kwargs):
 
     global app
     if not app:
-        app = Canteen(root_path, template_folders, **kwargs)
+        app = Flaskpack(root_path, template_folders, **kwargs)
     return app
 
