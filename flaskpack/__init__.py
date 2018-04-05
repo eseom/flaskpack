@@ -114,7 +114,7 @@ class Flaskpack(Flask):
         @self.route("/spec")
         def spec():
             swag = swagger(self)
-            swag_from_file = yaml.load(open('./swagger/spec.yaml'))
+            swag_from_file = yaml.load(open(base.app.root_path + '/../swagger/spec.yaml'))
             swag.update(swag_from_file)
             return jsonify(swag)
 

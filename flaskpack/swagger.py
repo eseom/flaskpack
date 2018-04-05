@@ -7,7 +7,8 @@ from flask import Blueprint, send_from_directory, render_template
 def get_swaggerui_blueprint(base_url, api_url, config=None, oauth_config=None):
     swagger_ui = Blueprint('swagger_ui',
                            __name__,
-                           static_folder='static/swagger',
+                           static_folder='static',
+                           static_url_path='/static-swaager',
                            template_folder='templates/swagger')
 
     default_config = {
