@@ -51,6 +51,7 @@ changelog.sh
 .python-version
 
 ve
+.ve
 .*.swp
 *.sql
 pgdata

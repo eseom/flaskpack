@@ -5,15 +5,19 @@ from setuptools import find_packages
 # variables
 
 NAME = 'flaskpack'
-VERSION = '0.1.5'
+VERSION = '0.1.6'
 
 # end variables
 
-from pip.req import parse_requirements
+def parse_requirements(filename):
+    """ load requirements from a pip requirements file """
+    lineiter = (line.strip() for line in open(filename))
+    return [line for line in lineiter if line and not line.startswith("#")]
+
 
 install_reqs = parse_requirements(
-    './requirements.txt', session='hack')
-reqs = [str(ir.req) for ir in install_reqs]
+    './requirements.txt')
+reqs = [str(ir) for ir in install_reqs]
 
 setup(
     name=NAME,
