@@ -41,7 +41,8 @@ def get_swaggerui_blueprint(base_url, api_url, config=None, oauth_config=None):
             return send_from_directory(
                 os.path.join(
                     swagger_ui.root_path,
-                    swagger_ui._static_folder
+                    swagger_ui._static_folder,
+                    'swagger',
                 ),
                 path
             )
