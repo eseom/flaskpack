@@ -85,7 +85,8 @@ class Flaskpack(Flask):
             url=base_url,
             name=self.config.get('APPNAME', 'flask app'),
             template_mode='bootstrap3',
-            base_template='admin/base_.html',
+            base_template=self.config.get('FLASK_ADMIN_BASE_TEMPLATE',
+                                          'admin/base_.html'),
             index_view=AdminIndexView(url=base_url),
         )
 
