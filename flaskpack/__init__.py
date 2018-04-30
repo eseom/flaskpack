@@ -147,7 +147,7 @@ class Flaskpack(Flask):
 
         self.register_blueprint(
             base.internal_bp,
-            url_prefix=base.app.config.get('CANTEEN_URL_PREFIX', '')
+            url_prefix=base.app.config.get('FLASKPACK_URL_PREFIX', '')
         )
 
 
