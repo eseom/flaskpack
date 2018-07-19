@@ -160,7 +160,7 @@ def init(**kwargs):
     import sys
 
     # reset root path
-    if sys.version_info.major == 3:
+    if sys.version_info.major == 3 and sys.version_info.minor > 4:
         root_path = os.path.dirname(
             os.path.abspath(inspect.stack()[1].filename))
     else:
