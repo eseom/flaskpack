@@ -51,25 +51,6 @@ class User(Model, UserMixin):
         return '<{self.email}>'.format(self=self)
 
 
-class Relationship(Model, BaseMixin):
-    __tablename__ = 'relationships'
-    __table_args__ = (
-        (UniqueConstraint("user_id", "followed_by_id",
-                          name="unique_idx_user_id_followed_by_id")),
-    )
-
-    user_id = db.Column(db.Integer, ForeignKey('users.id'))
-    followed_by_id = db.Column(db.Integer, ForeignKey('users.id'))
-
-    user = relationship('User', foreign_keys=user_id, backref='followed_by')
-    followed_by = relationship('User', foreign_keys=followed_by_id,
-                               backref='follows')
-
-    def __repr__(self):
-        return u'<{self.__class__.__name__}: {self.followed_by_id} to {self.user_id}>'.format(
-            self=self)
-
-
 class Client(Model):
     __tablename__ = 'clients'
 

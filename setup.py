@@ -5,7 +5,7 @@ from setuptools import find_packages
 # variables
 
 NAME = 'flaskpack'
-VERSION = '0.1.12'
+VERSION = '0.1.13'
 
 # end variables
 
