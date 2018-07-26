@@ -96,26 +96,30 @@ class Flaskpack(Flask):
         from .swagger import get_swaggerui_blueprint
         from flask_swagger import swagger
 
-        SWAGGER_URL = self.config.get('SWAGGER_URL', '/api/docs')
-        API_URL = '/spec'
+        SWAGGER_PATH = self.config.get('SWAGGER_PATH', '/docs')
+        SWAGGER_OAUTH_REDIRECT_PATH = self.config.get(
+            'SWAGGER_OAUTH_REDIRECT_PATH', '/docs/oauth2-redirect.html')
+        SWAGGER_SPEC_PATH = self.config.get('SWAGGER_SPEC_PATH', '/docs/spec')
 
         swaggerui_blueprint = get_swaggerui_blueprint(
-            SWAGGER_URL,
-            API_URL,
+            SWAGGER_PATH,
+            SWAGGER_SPEC_PATH,
             config={  # Swagger UI config overrides
                 'app_name': '%s API' % self.config.get('APPNAME', 'flask app'),
+                'oauth2RedirectPath': SWAGGER_OAUTH_REDIRECT_PATH,
             },
             oauth_config={
                 'clientId': "swagger",
             }
         )
 
-        self.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+        self.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_PATH)
 
-        @self.route("/spec")
+        @self.route(SWAGGER_SPEC_PATH)
         def spec():
             swag = swagger(self)
-            swag_from_file = yaml.load(open(base.app.root_path + '/../swagger/spec.yaml'))
+            swag_from_file = yaml.load(
+                open(base.app.root_path + '/../swagger/spec.yaml'))
             swag.update(swag_from_file)
             return jsonify(swag)
 
