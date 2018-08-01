@@ -5,6 +5,7 @@ from flask_admin import Admin
 from flask_collect import Collect
 from flask_cors import CORS
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_security.forms import LoginForm as SecurityOriginalLoginForm
 from flask_migrate import Migrate
 from flask_security import SQLAlchemySessionUserDatastore, Security
 from flask_sqlalchemy import SQLAlchemy
@@ -20,6 +21,12 @@ class Flaskpack(Flask):
         AdminIndexView = kwargs.get('admin_index_view', None)
         try:
             del kwargs['admin_index_view']
+        except:
+            pass
+
+        LoginForm = kwargs.get('login_form', None)
+        try:
+            del kwargs['login_form']
         except:
             pass
 
@@ -142,7 +149,8 @@ class Flaskpack(Flask):
         from .models import session, User, Role
 
         user_datastore = SQLAlchemySessionUserDatastore(session, User, Role)
-        security = Security(self, user_datastore)
+        security = Security(self, user_datastore, login_form=LoginForm or
+                            SecurityOriginalLoginForm)
 
         """
         modules
