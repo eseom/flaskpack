@@ -32,7 +32,6 @@ def convert_json(d, convert):
 
 class WeSchema(ma.Schema):
     def dump_camel(self, obj, many=None, update_fields=True, **kwargs):
-        print(obj)
         t = ma.Schema.dump(self, obj, many=many, update_fields=update_fields,
                            **kwargs)
         return MarshalResult(convert_json(t.data, underscore_to_camel),

@@ -16,9 +16,9 @@ class BaseMixin(object):
 
     id = Column(Integer, primary_key=True)
     created_at = Column('created_at', DateTime, nullable=False,
-                        default=datetime.now)
+                        default=datetime.utcnow)
     updated_at = Column('updated_at', DateTime, nullable=False,
-                        default=datetime.now, onupdate=datetime.now)
+                        default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
         return '<{self.__class__.__name__}:{self.id}>'.format(self=self)
