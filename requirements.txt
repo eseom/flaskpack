@@ -13,3 +13,5 @@ marshmallow-sqlalchemy==0.13.2
 psycopg2==2.7.3.2
 PyYAML==3.12
 celery==4.0.2
+Flask-SocketIO==3.0.2
+eventlet==0.24.1

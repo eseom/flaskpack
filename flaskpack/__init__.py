@@ -9,6 +9,7 @@ from flask_security.forms import LoginForm as SecurityOriginalLoginForm
 from flask_migrate import Migrate
 from flask_security import SQLAlchemySessionUserDatastore, Security
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
 
 from . import base
 
@@ -34,6 +35,7 @@ class Flaskpack(Flask):
         app
         """
         Flask.__init__(self, __name__, **kwargs)
+        socketio = SocketIO(self)
         base.app = self
         base.app.root_path = root_path
 
