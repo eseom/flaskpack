@@ -35,7 +35,7 @@ class Flaskpack(Flask):
         app
         """
         Flask.__init__(self, __name__, **kwargs)
-        socketio = SocketIO(self)
+        base.socketio = SocketIO(self)
         base.app = self
         base.app.root_path = root_path
 
