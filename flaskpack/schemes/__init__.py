@@ -25,6 +25,8 @@ def convert_json(d, convert):
         for k, v in d.items():
             if isinstance(v, dict):
                 new_d[convert(k)] = convert_json(v, convert)
+            if isinstance(v, list):
+                new_d[convert(k)] = [convert_json(t, convert) for t in v]
             else:
                 new_d[convert(k)] = v
     return new_d
